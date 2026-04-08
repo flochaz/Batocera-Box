@@ -9,9 +9,11 @@ BB_DIR="/userdata/system/batocera-box"
 BB_SETTINGS="$BB_DIR/.bb_settings.ini"
 BACKTITLE="Batocera Box  |  /userdata/roms/  |  ssh root@batocera.local"
 
-# ---- Network check ----
+# ---- Network check (use full paths — ES runs with a minimal PATH) ----
 OFFLINE=1
-if wget -q --spider --timeout=5 https://archive.org 2>/dev/null; then
+if /usr/bin/curl -s --head --max-time 5 https://archive.org -o /dev/null 2>/dev/null; then
+    OFFLINE=0
+elif /usr/bin/wget -q --spider --timeout=5 https://archive.org 2>/dev/null; then
     OFFLINE=0
 fi
 
